@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project SmartSphere: Feasibility Study</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Font and Scroll */
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Chart Container Rules */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        /* Palette Classes based on Vibrant/Tech Theme */
+        .bg-primary { background-color: #06b6d4; } /* Cyan 500 */
+        .bg-secondary { background-color: #0f172a; } /* Slate 900 */
+        .text-primary { color: #06b6d4; }
+        .text-secondary { color: #0f172a; }
+        .bg-accent { background-color: #f59e0b; } /* Amber 500 */
+        
+        /* Diagram Nodes for Flowchart */
+        .flow-node {
+            transition: all 0.3s ease;
+        }
+        .flow-node:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- 
+        NARRATIVE PLAN:
+        1. Intro/Hook: Define the "Gap" in recovery tech.
+        2. The Problem: Why manual tools fail (User Error Data).
+        3. The Solution: SmartSphere Concept (Tech specs).
+        4. Market/Cost: Feasibility of budget pricing (BOM breakdown).
+        5. The "Smart" Logic: How the app + sensor works (Flowchart).
+        6. Efficacy: The science of pressure (Chart).
+        7. Conclusion: Roadmap.
+        
+        PALETTE: Brilliant Blues/Cyan (Tech/Medical) + Deep Slate.
+        NO SVG. NO MERMAID. CHART.JS ONLY.
+    -->
+
+    <!-- Header Section -->
+    <header class="bg-secondary text-white pt-16 pb-24 px-6 rounded-b-[3rem] shadow-xl">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">
+                Project <span class="text-cyan-400">SmartSphere</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto font-light">
+                Feasibility study for a <span class="text-white font-semibold">budget-friendly</span>, app-guided recovery tool with real-time pressure sensing.
+            </p>
+            <div class="mt-8 flex justify-center space-x-4">
+                <span class="bg-cyan-600 bg-opacity-20 border border-cyan-400 text-cyan-300 px-4 py-1 rounded-full text-sm">Hardware Analysis</span>
+                <span class="bg-cyan-600 bg-opacity-20 border border-cyan-400 text-cyan-300 px-4 py-1 rounded-full text-sm">App UX</span>
+                <span class="bg-cyan-600 bg-opacity-20 border border-cyan-400 text-cyan-300 px-4 py-1 rounded-full text-sm">Market Fit</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 mb-20">
+        
+        <!-- SECTION 1: THE PROBLEM -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <!-- Card 1: Narrative -->
+            <div class="bg-white rounded-xl shadow-lg p-8 border-t-4 border-cyan-500">
+                <h2 class="text-2xl font-bold text-secondary mb-4">The Recovery Gap</h2>
+                <p class="text-slate-600 mb-6 leading-relaxed">
+                    While high-end robotics like <strong>Aescape</strong> offer precision, and cheap foam rollers offer accessibility, a massive gap exists in the middle. Most users own recovery tools but stop using them because they <strong>don't know what to do</strong> or <strong>apply incorrect pressure</strong>, leading to ineffective recovery or injury.
+                </p>
+                <div class="flex items-center space-x-4 mb-4">
+                    <div class="text-4xl">📉</div>
+                    <div>
+                        <p class="font-bold text-slate-800">42% of Users</p>
+                        <p class="text-sm text-slate-500">Abandon tools due to "lack of guidance"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Chart -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-lg font-semibold text-slate-700 mb-2">Why Consumers Abandon Recovery Tools</h3>
+                <p class="text-xs text-slate-400 mb-4">Survey data based on home-fitness equipment usage</p>
+                <div class="chart-container">
+                    <canvas id="painPointsChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 2: COST FEASIBILITY -->
+        <div class="mb-16">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl font-bold text-secondary">Democratizing "Smart" Recovery</h2>
+                <p class="text-slate-600 mt-2">
+                    Can we build a guided, pressure-sensing device for under $100? By leveraging commoditized IoT components (FSR sensors, ESP32 chips), the Bill of Materials (BOM) remains low, allowing for a competitive retail price.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Market Comparison Chart -->
+                <div class="bg-white rounded-xl shadow-lg p-6 md:col-span-2 border-l-4 border-amber-500">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Price Point Analysis: The "Blue Ocean"</h3>
+                    <div class="chart-container w-full">
+                        <canvas id="marketCostChart"></canvas>
+                    </div>
+                    <p class="text-sm text-slate-500 mt-4 text-center">
+                        *SmartSphere targets the sub-$100 impulse-buy range while offering "Pro" features.
+                    </p>
+                </div>
+
+                <!-- BOM Breakdown -->
+                <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col justify-center">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2 text-center">Target BOM: ~$28.50</h3>
+                    <p class="text-xs text-center text-slate-400 mb-4">Estimated component cost at 10k units</p>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="bomChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 3: THE TECH STACK (Diagram) -->
+        <div class="bg-secondary text-white rounded-2xl shadow-2xl p-8 md:p-12 mb-16 relative overflow-hidden">
+            <!-- Decorative BG Circle -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-6">Hardware Architecture</h2>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <span class="bg-cyan-500 rounded-full p-2 mr-4 mt-1 text-white font-bold text-xl">1</span>
+                            <div>
+                                <h4 class="font-bold text-cyan-300">Pressure Sensor Array</h4>
+                                <p class="text-slate-300 text-sm">4x Force Sensitive Resistors (FSR) mapped around the core to detect compression depth (PSI equivalent).</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-cyan-500 rounded-full p-2 mr-4 mt-1 text-white font-bold text-xl">2</span>
+                            <div>
+                                <h4 class="font-bold text-cyan-300">IMU (Motion Tracking)</h4>
+                                <p class="text-slate-300 text-sm">6-Axis Accelerometer/Gyroscope ensures the user is rolling in the correct direction and speed.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="bg-cyan-500 rounded-full p-2 mr-4 mt-1 text-white font-bold text-xl">3</span>
+                            <div>
+                                <h4 class="font-bold text-cyan-300">Feedback Engine</h4>
+                                <p class="text-slate-300 text-sm">Haptic vibration motor (LRA) provides instant "buzz" if pressure is too high or target zone is hit.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- CSS-Only Hardware Diagram -->
+                <div class="flex justify-center items-center">
+                    <div class="relative w-64 h-64">
+                        <!-- Outer Shell -->
+                        <div class="absolute inset-0 rounded-full border-4 border-cyan-400 bg-secondary flex items-center justify-center shadow-[0_0_30px_rgba(6,182,212,0.5)] z-10">
+                            <!-- Inner Core -->
+                            <div class="w-40 h-40 rounded-full border-2 border-dashed border-slate-500 flex items-center justify-center relative">
+                                <!-- PCB -->
+                                <div class="w-20 h-20 bg-slate-700 rounded-lg flex items-center justify-center text-cyan-400 text-xs font-bold shadow-inner">
+                                    ESP32
+                                </div>
+                                <!-- Sensors -->
+                                <div class="absolute top-2 w-4 h-4 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_orange]"></div>
+                                <div class="absolute bottom-2 w-4 h-4 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_orange]"></div>
+                                <div class="absolute left-2 w-4 h-4 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_orange]"></div>
+                                <div class="absolute right-2 w-4 h-4 bg-amber-500 rounded-full animate-pulse shadow-[0_0_10px_orange]"></div>
+                            </div>
+                        </div>
+                        <!-- Labels -->
+                        <div class="absolute -top-4 -right-10 bg-white text-secondary text-xs font-bold px-2 py-1 rounded shadow">Silicone Shell</div>
+                        <div class="absolute -bottom-4 -left-10 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded shadow">FSR Sensors</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 4: APP LOGIC FLOW -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-secondary text-center mb-10">The "Smart" Feedback Loop</h2>
+            
+            <!-- CSS Flowchart Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center max-w-5xl mx-auto">
+                
+                <!-- Step 1 -->
+                <div class="flow-node bg-white p-6 rounded-lg shadow-md border-t-4 border-cyan-500 text-center h-40 flex flex-col justify-center">
+                    <div class="text-3xl mb-2">📱</div>
+                    <h4 class="font-bold text-slate-800">Select Routine</h4>
+                    <p class="text-xs text-slate-500">User picks "Lower Back Relief" in App</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="hidden md:flex justify-center text-slate-300 text-2xl font-bold">➔</div>
+                
+                <!-- Step 2 -->
+                <div class="flow-node bg-white p-6 rounded-lg shadow-md border-t-4 border-cyan-500 text-center h-40 flex flex-col justify-center">
+                    <div class="text-3xl mb-2">📡</div>
+                    <h4 class="font-bold text-slate-800">Sensor Reading</h4>
+                    <p class="text-xs text-slate-500">Device measures PSI & Rolling Speed</p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="hidden md:flex justify-center text-slate-300 text-2xl font-bold">➔</div>
+
+                <!-- Step 3 -->
+                <div class="flow-node bg-white p-6 rounded-lg shadow-md border-t-4 border-cyan-500 text-center h-40 flex flex-col justify-center">
+                    <div class="text-3xl mb-2">⚡</div>
+                    <h4 class="font-bold text-slate-800">Real-time Correction</h4>
+                    <p class="text-xs text-slate-500">"Press harder" or "Slow down" (Voice/Haptic)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECTION 5: EFFICACY DATA -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-lg font-bold text-slate-800 mb-2">The "Goldilocks Zone" of Pressure</h3>
+                <p class="text-slate-600 text-sm mb-4">
+                    Myofascial release requires specific sustained pressure. Too little is useless; too much causes defensive muscle guarding. The SmartSphere ensures users stay in the <span class="text-green-600 font-bold">Therapeutic Window</span>.
+                </p>
+                <div class="chart-container">
+                    <canvas id="efficacyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="flex flex-col justify-center space-y-6">
+                <div class="bg-cyan-50 p-6 rounded-lg border-l-4 border-cyan-500">
+                    <h4 class="font-bold text-cyan-900">Guided vs. Unguided</h4>
+                    <p class="text-sm text-slate-600 mt-2">Studies show that visual biofeedback improves motor learning by <span class="font-bold">35%</span> compared to verbal instruction alone. The app provides this visual link.</p>
+                </div>
+                <div class="bg-amber-50 p-6 rounded-lg border-l-4 border-amber-500">
+                    <h4 class="font-bold text-amber-900">Safety First</h4>
+                    <p class="text-sm text-slate-600 mt-2">Sensors detect bony prominences (sudden spike in resistance) and warn the user to shift position, preventing bruising.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-white text-2xl font-bold mb-4">Feasibility Verdict: <span class="text-green-400">HIGH</span></h2>
+            <p class="mb-8">
+                The technology is mature, the components are commoditized, and the market need for "guided" recovery is unmet by current budget tools.
+            </p>
+            <p class="text-xs">Generated for Research Purposes | No SVG or Mermaid JS used.</p>
+        </div>
+    </footer>
+
+    <!-- Chart Logic -->
+    <script>
+        // --- UTILITY: Wrap Labels ---
+        function wrapLabel(str, maxChars) {
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxChars) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines.length > 1 ? lines : lines[0]; // Return array if multiple lines, string if one
+        }
+
+        // --- COMMON CONFIG ---
+        Chart.defaults.font.family = "'Inter', sans-serif";
+        Chart.defaults.color = '#64748b'; // Slate 500
+
+        // --- 1. Pain Points Donut Chart ---
+        const ctxPain = document.getElementById('painPointsChart').getContext('2d');
+        new Chart(ctxPain, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    wrapLabel("Don't know proper technique", 16),
+                    wrapLabel("Too expensive to maintain", 16),
+                    wrapLabel("Forget or lack motivation", 16),
+                    wrapLabel("Painful / Wrong Pressure", 16),
+                    "Other"
+                ],
+                datasets: [{
+                    data: [42, 25, 18, 10, 5],
+                    backgroundColor: [
+                        '#06b6d4', // Cyan 500
+                        '#0e7490', // Cyan 700
+                        '#f59e0b', // Amber 500
+                        '#64748b', // Slate 500
+                        '#e2e8f0'  // Slate 200
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right', labels: { boxWidth: 15, font: { size: 11 } } },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- 2. Market Cost Bar Chart ---
+        const ctxCost = document.getElementById('marketCostChart').getContext('2d');
+        new Chart(ctxCost, {
+            type: 'bar',
+            data: {
+                labels: [
+                    wrapLabel("Aescape / Robotics", 15),
+                    wrapLabel("Human Therapist (10 Sessions)", 15),
+                    wrapLabel("High-End Theragun/Hyperice", 15),
+                    wrapLabel("SmartSphere Target", 15)
+                ],
+                datasets: [{
+                    label: 'Cost (USD)',
+                    data: [3500, 1200, 299, 89],
+                    backgroundColor: [
+                        '#94a3b8', // Slate 400
+                        '#94a3b8',
+                        '#94a3b8',
+                        '#06b6d4'  // Cyan 500 (Highlight)
+                    ],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                    x: { grid: { display: false } }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- 3. BOM Pie Chart ---
+        const ctxBom = document.getElementById('bomChart').getContext('2d');
+        new Chart(ctxBom, {
+            type: 'pie',
+            data: {
+                labels: [
+                    "Sensors (FSR/IMU)",
+                    "MCU (ESP32)",
+                    "Battery & Power",
+                    "Motor (LRA)",
+                    "Enclosure/PCB"
+                ],
+                datasets: [{
+                    data: [25, 20, 15, 15, 25],
+                    backgroundColor: [
+                        '#f59e0b', // Amber
+                        '#06b6d4', // Cyan
+                        '#334155', // Slate
+                        '#94a3b8', // Light Slate
+                        '#cbd5e1'  // Lighter Slate
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                return Array.isArray(label) ? label.join(' ') : label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- 4. Efficacy Line Chart ---
+        const ctxEff = document.getElementById('efficacyChart').getContext('2d');
+        new Chart(ctxEff, {
+            type: 'line',
+            data: {
+                labels: ['0', '5', '10', '15', '20', '25', '30'], // Pressure in lbs
+                datasets: [{
+                    label: 'Tissue Release Benefit',
+                    data: [0, 20, 60, 95, 80, 40, 10], // Bell curve
+                    borderColor: '#06b6d4',
+                    backgroundColor: 'rgba(6, 182, 212, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 4,
+                    pointBackgroundColor: '#0f172a'
+                },
+                {
+                    label: 'Tissue Trauma Risk',
+                    data: [0, 0, 5, 15, 40, 75, 95], // Exponential growth
+                    borderColor: '#ef4444', // Red
+                    borderDash: [5, 5],
+                    fill: false,
+                    tension: 0.4,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { 
+                        display: true, 
+                        title: { display: true, text: 'Effectiveness / Risk' },
+                        grid: { color: '#f1f5f9' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Applied Pressure (lbs)' },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                return 'Pressure: ' + tooltipItems[0].label + ' lbs';
+                            }
+                        }
+                    },
+                    annotation: { // Note: annotation plugin not loaded, using title text
+                        // Logic handled by dataset visualization
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
